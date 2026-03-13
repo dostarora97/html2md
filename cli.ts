@@ -70,37 +70,39 @@ function parseArgs(args: string[]): {
 
 const flags = parseArgs(Deno.args);
 
-if (flags.help) {
-  console.log(HELP);
-  Deno.exit(0);
+if (import.meta.main) {
+  if (flags.help) {
+    console.log(HELP);
+    Deno.exit(0);
+  }
+
+  const chunks: Uint8Array[] = [];
+  for await (const chunk of Deno.stdin.readable) {
+    chunks.push(chunk);
+  }
+
+  const totalLength = chunks.reduce((sum, c) => sum + c.length, 0);
+  const merged = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.length;
+  }
+
+  const html = new TextDecoder().decode(merged);
+
+  if (!html.trim()) {
+    console.error("html2md: no input received on stdin");
+    Deno.exit(1);
+  }
+
+  const { markdown } = convert(html, {
+    reader: !flags.full,
+    frontmatter: flags.frontmatter,
+    url: flags.url,
+    stripImages: flags.stripImages,
+    stripLinks: flags.stripLinks,
+  });
+
+  console.log(markdown);
 }
-
-const chunks: Uint8Array[] = [];
-for await (const chunk of Deno.stdin.readable) {
-  chunks.push(chunk);
-}
-
-const totalLength = chunks.reduce((sum, c) => sum + c.length, 0);
-const merged = new Uint8Array(totalLength);
-let offset = 0;
-for (const chunk of chunks) {
-  merged.set(chunk, offset);
-  offset += chunk.length;
-}
-
-const html = new TextDecoder().decode(merged);
-
-if (!html.trim()) {
-  console.error("html2md: no input received on stdin");
-  Deno.exit(1);
-}
-
-const { markdown } = convert(html, {
-  reader: !flags.full,
-  frontmatter: flags.frontmatter,
-  url: flags.url,
-  stripImages: flags.stripImages,
-  stripLinks: flags.stripLinks,
-});
-
-console.log(markdown);

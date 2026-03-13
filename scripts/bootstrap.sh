@@ -103,7 +103,7 @@ ok "html2md installed globally"
 
 # ── 7. Install/cache dependencies ─────────────────────────────────────────────
 step "Installing Deno dependencies..."
-deno install --entrypoint mod.ts --entrypoint cli.ts --entrypoint mod_test.ts
+deno install
 ok "Dependencies installed"
 
 # ── 8. Done ───────────────────────────────────────────────────────────────────

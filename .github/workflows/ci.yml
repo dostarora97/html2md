@@ -27,7 +27,7 @@ jobs:
             deno-${{ runner.os }}-
 
       - name: Install dependencies (frozen)
-        run: deno install --frozen --entrypoint mod.ts --entrypoint cli.ts --entrypoint mod_test.ts
+        run: deno install --frozen
 
       - name: Format check
         run: deno task fmt:check
