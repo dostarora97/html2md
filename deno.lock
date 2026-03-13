@@ -1,21 +1,33 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@std/assert@1": "1.0.14",
-    "jsr:@std/internal@^1.0.10": "1.0.10",
-    "npm:@mozilla/readability@0.6.0": "0.6.0",
-    "npm:linkedom@0.18.10": "0.18.10",
-    "npm:turndown@7.2.2": "7.2.2"
+    "jsr:@std/assert@1": "1.0.19",
+    "jsr:@std/cli@^1.0.28": "1.0.28",
+    "jsr:@std/fmt@^1.0.9": "1.0.9",
+    "jsr:@std/internal@^1.0.12": "1.0.12",
+    "npm:@mozilla/readability@0.6": "0.6.0",
+    "npm:linkedom@~0.18.12": "0.18.12",
+    "npm:turndown@^7.2.2": "7.2.2"
   },
   "jsr": {
-    "@std/assert@1.0.14": {
-      "integrity": "68d0d4a43b365abc927f45a9b85c639ea18a9fab96ad92281e493e4ed84abaa4",
+    "@std/assert@1.0.19": {
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
       "dependencies": [
         "jsr:@std/internal"
       ]
     },
-    "@std/internal@1.0.10": {
-      "integrity": "e3be62ce42cab0e177c27698e5d9800122f67b766a0bea6ca4867886cbde8cf7"
+    "@std/cli@1.0.28": {
+      "integrity": "74ef9b976db59ca6b23a5283469c9072be6276853807a83ec6c7ce412135c70a",
+      "dependencies": [
+        "jsr:@std/fmt",
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/fmt@1.0.9": {
+      "integrity": "2487343e8899fb2be5d0e3d35013e54477ada198854e52dd05ed0422eddcabe0"
+    },
+    "@std/internal@1.0.12": {
+      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
     }
   },
   "npm": {
@@ -87,8 +99,8 @@
         "entities@7.0.1"
       ]
     },
-    "linkedom@0.18.10": {
-      "integrity": "sha512-ESCqVAtme2GI3zZnlVRidiydByV6WmPlmKeFzFVQslADiAO2Wi+H6xL/5kr/pUOESjEoVb2Eb3cYFJ/TQhQOWA==",
+    "linkedom@0.18.12": {
+      "integrity": "sha512-jalJsOwIKuQJSeTvsgzPe9iJzyfVaEJiEXl+25EkKevsULHvMJzpNqwvj1jOESWdmgKDiXObyjOYwlUqG7wo1Q==",
       "dependencies": [
         "css-select",
         "cssom",
@@ -116,9 +128,10 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
-      "npm:@mozilla/readability@0.6.0",
-      "npm:linkedom@0.18.10",
-      "npm:turndown@7.2.2"
+      "jsr:@std/cli@^1.0.28",
+      "npm:@mozilla/readability@0.6",
+      "npm:linkedom@~0.18.12",
+      "npm:turndown@^7.2.2"
     ]
   }
 }

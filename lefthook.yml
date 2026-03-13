@@ -5,7 +5,7 @@
 pre-commit:
   commands:
     ci:
-      glob: "*.{ts,md,json}"
+      glob: "*.{ts,md,json,yml,yaml,toml,sh}"
       run: deno task ci
 
 commit-msg:
@@ -13,11 +13,16 @@ commit-msg:
     conventional:
       run: |
         MSG=$(cat {1})
-        PATTERN='^(feat|fix|docs|style|refactor|test|chore|ci|build|perf|revert)(\(.+\))?: .{1,100}'
+        # Allow merge commits, reverts, and git-generated messages
+        if echo "$MSG" | grep -qE '^(Merge |Revert |fixup! |squash! )'; then
+          exit 0
+        fi
+        PATTERN='^(feat|fix|docs|style|refactor|test|chore|ci|build|perf|revert)(\(.+\))?(!)?: .{1,100}'
         if ! echo "$MSG" | grep -qE "$PATTERN"; then
           echo "✗ Commit message must follow Conventional Commits format."
           echo "  Expected: <type>(<scope>): <description>"
           echo "  Types: feat fix docs style refactor test chore ci build perf revert"
+          echo "  Breaking change: append ! before colon, e.g. feat!: ..."
           echo "  Got: $MSG"
           exit 1
         fi

@@ -46,9 +46,9 @@ strikethrough.
 # Global CLI (requires Deno)
 deno install --global --allow-read --allow-env -n html2md https://jsr.io/@placeholder/html2md/cli.ts
 
-# Or clone + bootstrap (installs Deno if needed, hooks, and the CLI)
+# Or clone and set up for development
 git clone <repo-url> html2md && cd html2md
-./scripts/bootstrap.sh
+lefthook install && deno install
 ```
 
 ## Quick usage
@@ -76,6 +76,6 @@ curl -s https://docs.deno.com | html2md --url https://docs.deno.com > context.md
 | ---------------------------------- | --------------------------------------------------- |
 | [cli.md](cli.md)                   | All CLI flags, examples, exit codes                 |
 | [api.md](api.md)                   | `convert()` function, all options, TypeScript types |
-| [architecture.md](architecture.md) | How the three dependencies fit together, data flow  |
+| [architecture.md](architecture.md) | How the dependencies fit together, data flow        |
 | [contributing.md](contributing.md) | Setup, workflow, how to add a new flag end-to-end   |
 | [publishing.md](publishing.md)     | JSR publishing, versioning, the `/release` skill    |

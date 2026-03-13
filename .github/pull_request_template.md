@@ -14,7 +14,7 @@
 
 - [ ] `deno task ci` passes locally
 - [ ] Tests added or updated for all changed behaviour
-- [ ] Docs updated (`docs/cli.md`, `docs/api.md`, etc.) if flags or API changed
+- [ ] Docs updated if public API or CLI flags changed
 - [ ] `CHANGELOG.md` updated under `## [Unreleased]`
 - [ ] Commit messages follow
       [Conventional Commits](https://conventionalcommits.org)

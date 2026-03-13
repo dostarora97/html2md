@@ -1,5 +1,7 @@
 version: 2
 updates:
+  # Covers npm deps: turndown, @mozilla/readability, linkedom
+  # JSR deps (@std/*) are not supported by Dependabot — use `deno task outdated`
   - package-ecosystem: npm
     directory: "/"
     schedule:

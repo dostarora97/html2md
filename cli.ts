@@ -1,5 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read --allow-env
 
+import { parseArgs } from "@std/cli/parse-args";
 import { convert } from "./mod.ts";
 
 const HELP = `
@@ -24,53 +25,15 @@ EXAMPLES
   curl -s https://example.com | html2md --strip-links > context.md
 `.trim();
 
-function parseArgs(args: string[]): {
-  url?: string;
-  full: boolean;
-  frontmatter: boolean;
-  stripImages: boolean;
-  stripLinks: boolean;
-  help: boolean;
-} {
-  const result = {
-    url: undefined as string | undefined,
-    full: false,
-    frontmatter: true,
-    stripImages: false,
-    stripLinks: false,
-    help: false,
-  };
-
-  for (let i = 0; i < args.length; i++) {
-    switch (args[i]) {
-      case "--url":
-        result.url = args[++i];
-        break;
-      case "--full":
-        result.full = true;
-        break;
-      case "--no-frontmatter":
-        result.frontmatter = false;
-        break;
-      case "--strip-images":
-        result.stripImages = true;
-        break;
-      case "--strip-links":
-        result.stripLinks = true;
-        break;
-      case "-h":
-      case "--help":
-        result.help = true;
-        break;
-    }
-  }
-
-  return result;
-}
-
-const flags = parseArgs(Deno.args);
-
 if (import.meta.main) {
+  const flags = parseArgs(Deno.args, {
+    boolean: ["full", "frontmatter", "strip-images", "strip-links", "help"],
+    string: ["url"],
+    alias: { h: "help" },
+    default: { frontmatter: true },
+    negatable: ["frontmatter"],
+  });
+
   if (flags.help) {
     console.log(HELP);
     Deno.exit(0);
@@ -100,8 +63,8 @@ if (import.meta.main) {
     reader: !flags.full,
     frontmatter: flags.frontmatter,
     url: flags.url,
-    stripImages: flags.stripImages,
-    stripLinks: flags.stripLinks,
+    stripImages: flags["strip-images"],
+    stripLinks: flags["strip-links"],
   });
 
   console.log(markdown);
