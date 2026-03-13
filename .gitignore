@@ -1,0 +1,8 @@
+# Deno cache
+.deno/
+
+# npm artifacts (if ever used)
+node_modules/
+
+# OS
+.DS_Store
