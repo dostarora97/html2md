@@ -1,26 +1,77 @@
 {
   "name": "@placeholder/html2md",
   "version": "0.1.0",
+  "license": "MIT",
   "exports": "./mod.ts",
+  "publish": {
+    "exclude": [
+      "scripts/",
+      "docs/api/",
+      ".github/",
+      "coverage/",
+      ".claude/",
+      ".entire/",
+      ".vscode/",
+      ".idea/",
+      "lefthook.yml",
+      ".mise.toml",
+      ".gitattributes",
+      ".gitignore",
+      ".editorconfig",
+      "CLAUDE.md",
+      "mod_test.ts"
+    ]
+  },
   "tasks": {
     "setup": "bash scripts/bootstrap.sh",
-    "install": "deno install --global --allow-read --allow-env --force --config deno.json --name html2md ./cli.ts",
+    "install": "deno install --global --allow-read --allow-env --name html2md ./cli.ts",
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
     "lint": "deno lint",
-    "test": "deno test --allow-read --allow-env",
+    "test": "deno test --allow-read --allow-env --parallel",
     "test:coverage": "deno test --allow-read --allow-env --coverage=coverage/raw",
+    "test:doc": "deno test --allow-read --allow-env --doc mod.ts",
     "coverage": "deno task test:coverage && deno coverage coverage/raw --lcov --output=coverage/lcov.info",
+    "coverage:html": "deno task test:coverage && deno coverage coverage/raw --html --output=coverage/html",
     "check": "deno check mod.ts cli.ts",
     "doc:lint": "deno doc --lint mod.ts",
     "doc:gen": "deno doc --html --name='html2md' --output=docs/api mod.ts",
     "ci": "deno task fmt:check && deno task lint && deno task doc:lint && deno task check && deno task test",
-    "upgrade": "deno run --allow-net --allow-read jsr:@deno/udd mod.ts cli.ts mod_test.ts",
-    "publish-dry": "deno publish --dry-run",
+    "outdated": "deno outdated",
+    "update": "deno outdated --update",
+    "update:latest": "deno outdated --update --latest",
+    "publish-dry": "deno publish --dry-run --allow-dirty",
     "publish": "deno publish"
   },
   "compilerOptions": {
-    "lib": ["deno.window", "dom"]
+    "lib": ["deno.window", "dom"],
+    "strict": true,
+    "verbatimModuleSyntax": true
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"],
+      "include": [
+        "ban-untagged-todo",
+        "no-slow-types",
+        "verbatim-module-syntax"
+      ]
+    },
+    "exclude": ["docs/api/", "coverage/"]
+  },
+  "fmt": {
+    "lineWidth": 80,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": false,
+    "proseWrap": "always",
+    "exclude": ["docs/api/", "coverage/", ".idea/"]
+  },
+  "test": {
+    "exclude": ["docs/api/", "coverage/"]
+  },
+  "lock": {
+    "frozen": true
   },
   "imports": {
     "turndown": "npm:turndown@7.2.2",
@@ -28,5 +79,5 @@
     "linkedom": "npm:linkedom@0.18.10",
     "@std/assert": "jsr:@std/assert@1.0.14"
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "docs/api/", "coverage/", ".idea/"]
 }

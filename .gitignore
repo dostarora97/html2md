@@ -4,6 +4,9 @@
 # npm artifacts
 node_modules/
 
+# Coverage reports
+coverage/
+
 # Claude Code — local settings (personal overrides, not for sharing)
 .claude/settings.local.json
 
@@ -13,3 +16,6 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+
+# IDE
+.idea/

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # Required for JSR OIDC publishing
+      id-token: write # Required for JSR OIDC provenance
     steps:
       - uses: actions/checkout@v4
 
@@ -18,8 +18,11 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Install dependencies (frozen)
+        run: deno install --frozen --entrypoint mod.ts --entrypoint cli.ts
+
       - name: Run CI checks before publish
         run: deno task ci
 
-      - name: Publish to JSR
+      - name: Publish to JSR (with provenance)
         run: deno publish
