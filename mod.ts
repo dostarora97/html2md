@@ -1,3 +1,22 @@
+/**
+ * @module
+ *
+ * html2md — convert HTML to Markdown, optimised for feeding web content to
+ * LLMs.
+ *
+ * Uses Mozilla Readability to extract the main article body, then converts it
+ * to Markdown with Turndown. Produces optional YAML frontmatter with title,
+ * URL, date, and description.
+ *
+ * @example Basic usage
+ * ```ts
+ * import { convert } from "@dostarora97/html2md";
+ *
+ * const html = await fetch("https://example.com").then((r) => r.text());
+ * const { markdown } = convert(html, { url: "https://example.com" });
+ * console.log(markdown);
+ * ```
+ */
 import { extractContent, extractMeta, parseDocument } from "./src/extract.ts";
 import { buildTurndown } from "./src/markdown.ts";
 import { buildFrontmatter } from "./src/frontmatter.ts";
