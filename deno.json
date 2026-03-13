@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "exports": "./mod.ts",
   "tasks": {
+    "setup": "bash scripts/bootstrap.sh",
     "install": "deno install --global --allow-read --allow-env --force --config deno.json --name html2md ./cli.ts",
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
     "lint": "deno lint",
     "test": "deno test --allow-read --allow-env",
     "check": "deno check mod.ts cli.ts",
-    "ci": "deno task fmt:check && deno task lint && deno task check && deno task test",
+    "doc:lint": "deno doc --lint mod.ts",
+    "doc:gen": "deno doc --html --name='html2md' --output=docs/api mod.ts",
+    "ci": "deno task fmt:check && deno task lint && deno task doc:lint && deno task check && deno task test",
+    "upgrade": "deno run --allow-net --allow-read jsr:@deno/udd mod.ts cli.ts mod_test.ts",
     "publish-dry": "deno publish --dry-run",
     "publish": "deno publish"
   },

@@ -1,0 +1,15 @@
+{
+  "deno.enable": true,
+  "deno.config": "./deno.json",
+  "deno.lint": true,
+  "deno.unstable": [],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "[markdown]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true
+}

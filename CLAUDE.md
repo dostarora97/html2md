@@ -1,73 +1,82 @@
 # html2md
 
-A CLI tool and library that converts HTML to Markdown, optimised for providing
-web content as context to LLMs.
+A CLI tool and Deno library that converts HTML to Markdown, optimised for
+providing web content as context to LLMs.
+
+## Orientation
+
+Read these files to understand the project — they are the source of truth:
+
+- @docs/README.md — overview, features, installation, quick-start examples
+- @docs/architecture.md — internal data flow, the three dependencies, design
+  decisions
+- @docs/api.md — `convert()` function, all `ConvertOptions` fields, TypeScript
+  types
+- @docs/cli.md — all CLI flags, exit codes, usage examples
+- @docs/contributing.md — setup, full workflow, how to add a new flag end-to-end
+- @docs/publishing.md — JSR publishing, versioning policy, release workflow
 
 ## Quick commands
 
 ```bash
-deno task ci          # full pipeline: fmt + lint + typecheck + test
-deno task test        # tests only
-deno task fmt         # auto-format all files
-deno task lint        # lint
-deno task check       # typecheck mod.ts + cli.ts
-deno task install     # reinstall global `html2md` command
-deno task publish     # publish to JSR
+./scripts/bootstrap.sh  # first-time setup (installs deno, hooks, global command)
+deno task ci            # full pipeline: fmt + lint + doc:lint + typecheck + test
+deno task test          # tests only (fast inner loop)
+deno task fmt           # auto-format all files
+deno task setup         # re-run bootstrap (idempotent)
+deno task doc:gen       # generate HTML API docs into docs/api/
+deno task upgrade       # check for outdated npm dependencies
+deno task install       # reinstall global `html2md` command
+deno task publish       # publish to JSR
 ```
 
-## Architecture
+## File map
 
 ```
-mod.ts          Library entry — exports convert(html, opts): ConvertResult
+mod.ts          Public library API — exports convert(html, opts): ConvertResult
 cli.ts          CLI entry — reads stdin, parses flags, calls mod.ts
-mod_test.ts     Unit tests (deno test)
+mod_test.ts     14 unit tests (deno test)
 deno.json       Config, import map, tasks, JSR publish metadata
+scripts/
+  bootstrap.sh          First-time environment setup
+  hooks/pre-commit      Runs deno task ci before every commit
+  hooks/commit-msg      Enforces conventional commits format
+.claude/
+  settings.json         Permissions + lint-on-save hook + Entire hooks
+  rules/typescript.md   Deno/TS conventions (scoped to .ts files)
+  rules/testing.md      Test naming + assertion rules (scoped to mod_test.ts)
+  skills/release/       /release skill — bump version, tag, push
+  agents/reviewer.md    read-only Sonnet reviewer subagent
+.github/
+  workflows/ci.yml          Lint + typecheck + test on push/PR
+  workflows/publish.yml     JSR publish on git tag push
+  workflows/release-drafter.yml  Auto-draft release notes
+  dependabot.yml            Monthly npm dep bump PRs
+  release-drafter.yml       Release notes categories config
+docs/                   Human + agent documentation (see Orientation above)
+.vscode/                Format-on-save, Deno extension config
+.editorconfig           Universal indentation and whitespace config
+.entire/                AI session checkpoints (entire enable --agent claude-code)
 ```
 
-`mod.ts` is the public API surface. `cli.ts` is a thin wrapper around it.
+## Code conventions (summary — full details in @docs/contributing.md)
 
-## Code conventions
-
-- Deno-native TypeScript; no Node APIs
-- Import bare specifiers from `deno.json` import map only (no inline `npm:` or
-  `jsr:` specifiers)
+- Deno-native TypeScript; no Node APIs (`process`, `require`, `__dirname`)
+- Import bare specifiers from `deno.json` import map — no inline `npm:` or
+  `jsr:` specifiers
 - `deno fmt` style enforced — run `deno task fmt` to fix
-- `deno lint` enforced — no `deno-lint-ignore` unless genuinely unavoidable
-- All exports in `mod.ts` must be documented with JSDoc
-- Tests live in `mod_test.ts` — one `Deno.test` per behaviour, named
-  `"topic: what it does"`
-
-## Testing
-
-```bash
-deno task test
-```
-
-14 unit tests covering: frontmatter, reader mode, full mode, stripImages,
-stripLinks, strikethrough, tables, code blocks, result shape.
-
-## Dependencies
-
-- `npm:turndown@7.2.2` — HTML → Markdown conversion
-- `npm:@mozilla/readability@0.6.0` — reader-mode content extraction
-- `npm:linkedom@0.18.10` — DOM parsing (no Node/jsdom required)
-- `jsr:@std/assert@1.0.14` — test assertions
-
-## Publishing
-
-Before publishing, update the `version` field in `deno.json` and add a new entry
-to `CHANGELOG.md`.
-
-```bash
-deno task publish-dry   # dry run
-deno task publish       # publish to JSR (requires deno login)
-```
-
-Or push a version tag (`git tag v0.x.x && git push --tags`) to trigger the
-GitHub Actions publish workflow.
+- `deno lint` enforced — `deno-lint-ignore` only at npm interop boundaries
+- All exports in `mod.ts` must have JSDoc (`deno task doc:lint` checks this)
+- Tests: one `Deno.test` per behaviour, named `"topic: what it does"`
+- Commits: Conventional Commits enforced by `commit-msg` hook
 
 ## Session checkpoints (Entire)
 
 This repo uses [Entire](https://entire.io) for AI session checkpoints. Hooks are
-in `.claude/settings.json`. Use `entire rewind` to browse and restore
-checkpoints. Use `entire status` to check state.
+wired in `.claude/settings.json`.
+
+```bash
+entire status           # check state
+entire rewind           # browse and restore checkpoints interactively
+entire rewind --list    # list checkpoints as JSON
+```

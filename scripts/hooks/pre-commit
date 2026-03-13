@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# pre-commit — runs full CI before allowing a commit
+# Installed by: scripts/bootstrap.sh
+# html2md
+
+set -euo pipefail
+
+# Only run if there are staged .ts or .md files
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(ts|md|json|yml|yaml)$' || true)
+if [ -z "$STAGED" ]; then
+  exit 0
+fi
+
+echo "→ Running CI checks before commit..."
+
+if ! deno task ci; then
+  echo ""
+  echo "✗ Pre-commit check failed. Fix the issues above and try again."
+  echo "  To skip (not recommended): git commit --no-verify"
+  exit 1
+fi
+
+echo "✓ All checks passed."
