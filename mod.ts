@@ -1,6 +1,6 @@
-import TurndownService from "turndown";
-import { Readability } from "@mozilla/readability";
-import { parseHTML } from "linkedom";
+import { extractContent, extractMeta, parseDocument } from "./src/extract.ts";
+import { buildTurndown } from "./src/markdown.ts";
+import { buildFrontmatter } from "./src/frontmatter.ts";
 
 /**
  * Options controlling how HTML is converted to Markdown.
@@ -71,81 +71,6 @@ export interface ConvertResult {
   description?: string;
 }
 
-function buildTurndown(opts: ConvertOptions): TurndownService {
-  // deno-lint-ignore no-explicit-any
-  const td = new (TurndownService as any)({
-    headingStyle: "atx",
-    codeBlockStyle: "fenced",
-    bulletListMarker: "-",
-    hr: "---",
-    linkStyle: "inlined",
-  });
-
-  td.remove(["script", "style", "noscript", "iframe"]);
-
-  if (opts.stripImages) {
-    td.addRule("stripImages", {
-      filter: ["img", "picture", "figure"],
-      replacement: () => "",
-    });
-  }
-
-  if (opts.stripLinks) {
-    td.addRule("plainLinks", {
-      filter: "a",
-      replacement: (content: string) => content,
-    });
-  }
-
-  // Strikethrough
-  td.addRule("strikethrough", {
-    filter: ["del", "s", "strike"],
-    replacement: (content: string) => `~~${content}~~`,
-  });
-
-  return td;
-}
-
-function extractMeta(document: ReturnType<typeof parseHTML>["document"]): {
-  title: string;
-  description: string;
-} {
-  const title =
-    document.querySelector("meta[property='og:title']")?.getAttribute(
-      "content",
-    ) ??
-      document.querySelector("title")?.textContent ??
-      "";
-
-  const description =
-    document.querySelector("meta[property='og:description']")?.getAttribute(
-      "content",
-    ) ??
-      document.querySelector("meta[name='description']")?.getAttribute(
-        "content",
-      ) ??
-      "";
-
-  return { title: title.trim(), description: description.trim() };
-}
-
-function buildFrontmatter(
-  title: string,
-  description: string,
-  url?: string,
-): string {
-  const date = new Date().toISOString().split("T")[0];
-  const lines = ["---"];
-  if (title) lines.push(`title: "${title.replace(/"/g, '\\"')}"`);
-  if (url) lines.push(`url: "${url}"`);
-  lines.push(`date: ${date}`);
-  if (description) {
-    lines.push(`description: "${description.replace(/"/g, '\\"')}"`);
-  }
-  lines.push("---");
-  return lines.join("\n");
-}
-
 /**
  * Convert an HTML string to Markdown.
  *
@@ -192,34 +117,9 @@ export function convert(
     stripLinks = false,
   } = opts;
 
-  const { document } = parseHTML(html);
+  const document = parseDocument(html);
   const { title, description } = extractMeta(document);
-
-  let contentHtml: string;
-
-  if (reader) {
-    const article = new Readability(
-      document as unknown as Document,
-    ).parse();
-    contentHtml = article?.content ?? html;
-  } else {
-    // Full page — just remove the guaranteed-noise elements
-    for (
-      const tag of [
-        "script",
-        "style",
-        "noscript",
-        "nav",
-        "header",
-        "footer",
-        "aside",
-        "iframe",
-      ]
-    ) {
-      document.querySelectorAll(tag).forEach((el: Element) => el.remove());
-    }
-    contentHtml = document.body?.innerHTML ?? html;
-  }
+  const contentHtml = extractContent(document, html, reader);
 
   const td = buildTurndown({ stripImages, stripLinks });
   const body = td.turndown(contentHtml);
