@@ -44,10 +44,10 @@ strikethrough.
 
 ```bash
 # Global CLI (requires Deno)
-deno install --global --allow-read --allow-env -n html2md https://jsr.io/@placeholder/html2md/cli.ts
+deno install --global --allow-read --allow-env -n html2md https://jsr.io/@dostarora97/html2md/cli.ts
 
 # Or clone and set up for development
-git clone <repo-url> html2md && cd html2md
+git clone https://github.com/dostarora97/html2md html2md && cd html2md
 lefthook install && deno install
 ```
 

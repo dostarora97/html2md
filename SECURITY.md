@@ -13,7 +13,7 @@ Please **do not** open a public GitHub issue for security vulnerabilities.
 Report vulnerabilities privately via
 [GitHub's private vulnerability reporting](../../security/advisories/new) or by
 emailing the maintainer directly (see the package on
-[jsr.io/@placeholder/html2md](https://jsr.io/@placeholder/html2md)).
+[jsr.io/@dostarora97/html2md](https://jsr.io/@dostarora97/html2md)).
 
 Please include:
 

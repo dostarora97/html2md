@@ -80,7 +80,7 @@ export interface ConvertResult {
  *
  * @example Basic usage (reader mode + frontmatter, the default)
  * ```ts
- * import { convert } from "@placeholder/html2md";
+ * import { convert } from "@dostarora97/html2md";
  *
  * const html = await fetch("https://example.com").then(r => r.text());
  * const { markdown } = convert(html, { url: "https://example.com" });

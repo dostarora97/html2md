@@ -2,8 +2,7 @@
 
 ## First-time setup
 
-1. Create an account at [jsr.io](https://jsr.io) and replace `@placeholder` in
-   `deno.json` with your scope
+1. Create an account at [jsr.io](https://jsr.io) and link your GitHub
 2. `deno login` (opens browser)
 
 ## Cutting a release

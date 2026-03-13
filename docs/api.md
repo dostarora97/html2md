@@ -3,7 +3,7 @@
 `html2md` exports a single `convert()` function from `mod.ts`.
 
 ```ts
-import { convert } from "@placeholder/html2md";
+import { convert } from "@dostarora97/html2md";
 
 const { markdown, title } = convert(html, {
   url: "https://example.com",
