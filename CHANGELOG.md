@@ -8,6 +8,17 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-03-13
+
+### Added
+
+- Root `README.md` for JSR package page
+- Module doc on `mod.ts` entrypoint
+
+### Fixed
+
+- `release-drafter.yml` invalid `_template` key
+
 ## [0.1.0] - 2026-03-13
 
 ### Added
