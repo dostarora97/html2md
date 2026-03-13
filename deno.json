@@ -28,15 +28,35 @@
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
     "lint": "deno lint",
-    "test": "deno test --allow-read --allow-env --parallel",
-    "test:coverage": "deno test --allow-read --allow-env --coverage=coverage/raw",
-    "test:doc": "deno test --allow-read --allow-env --doc mod.ts",
-    "coverage": "deno task test:coverage && deno coverage coverage/raw --lcov --output=coverage/lcov.info",
-    "coverage:html": "deno task test:coverage && deno coverage coverage/raw --html --output=coverage/html",
+    "test": {
+      "command": "deno test --parallel",
+      "description": "Run unit tests"
+    },
+    "test:coverage": {
+      "command": "deno test --parallel --coverage=coverage/raw",
+      "description": "Run tests with coverage collection"
+    },
+    "test:doc": {
+      "command": "deno test --doc mod.ts",
+      "description": "Test JSDoc code examples in mod.ts"
+    },
+    "coverage": {
+      "command": "deno coverage coverage/raw --lcov --output=coverage/lcov.info",
+      "dependencies": ["test:coverage"],
+      "description": "Run tests then generate lcov coverage report"
+    },
+    "coverage:html": {
+      "command": "deno coverage coverage/raw --html --output=coverage/html",
+      "dependencies": ["test:coverage"],
+      "description": "Run tests then generate HTML coverage report"
+    },
     "check": "deno check mod.ts cli.ts",
     "doc:lint": "deno doc --lint mod.ts",
     "doc:gen": "deno doc --html --name='html2md' --output=docs/api mod.ts",
-    "ci": "deno task fmt:check && deno task lint && deno task doc:lint && deno task check && deno task test",
+    "ci": {
+      "command": "deno task fmt:check && deno task lint && deno task doc:lint && deno task check && deno task test",
+      "description": "Full CI pipeline: fmt + lint + doc:lint + typecheck + test"
+    },
     "outdated": "deno outdated",
     "update": "deno outdated --update",
     "update:latest": "deno outdated --update --latest",

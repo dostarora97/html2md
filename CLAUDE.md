@@ -21,13 +21,18 @@ Read these files to understand the project — they are the source of truth:
 ```bash
 ./scripts/bootstrap.sh  # first-time setup (installs deno, hooks, global command)
 deno task ci            # full pipeline: fmt + lint + doc:lint + typecheck + test
-deno task test          # tests only (fast inner loop)
+deno task test          # tests only — no permissions needed, library is pure
 deno task fmt           # auto-format all files
-deno task coverage      # run tests → coverage/lcov.info
+deno task coverage      # depends on test:coverage; outputs coverage/lcov.info
+deno task coverage:html # depends on test:coverage; outputs coverage/html/
+deno task test:doc      # test JSDoc @example blocks in mod.ts
 deno task setup         # re-run bootstrap (idempotent)
 deno task doc:gen       # generate HTML API docs into docs/api/
-deno task upgrade       # check for outdated npm dependencies
+deno task outdated      # show outdated deps (native deno outdated)
+deno task update        # update deps to compatible versions
+deno task update:latest # update deps to latest
 deno task install       # reinstall global `html2md` command
+deno task publish-dry   # dry-run publish to see what would be uploaded
 deno task publish       # publish to JSR
 ```
 

@@ -46,12 +46,14 @@ Open the project folder — VS Code will prompt to install the **Deno** extensio
 ## Development workflow
 
 ```bash
-deno task test        # run unit tests
-deno task ci          # full pipeline (fmt + lint + doc:lint + typecheck + test)
-deno task fmt         # auto-format
-deno task lint        # lint only
-deno task check       # typecheck only
-deno task coverage    # run tests with coverage → coverage/lcov.info
+deno task test          # run unit tests (no permissions needed — library is pure)
+deno task ci            # full pipeline (fmt + lint + doc:lint + typecheck + test)
+deno task fmt           # auto-format
+deno task lint          # lint only
+deno task check         # typecheck only
+deno task coverage      # run tests → coverage/raw → coverage/lcov.info
+deno task coverage:html # run tests → coverage/raw → coverage/html/index.html
+deno task test:doc      # test JSDoc examples in mod.ts
 ```
 
 Tests run in under a second — `deno task test` is your inner loop.
