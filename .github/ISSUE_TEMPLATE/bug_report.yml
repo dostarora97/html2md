@@ -1,0 +1,60 @@
+name: Bug report
+description: Something isn't working as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill out the fields below.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+      placeholder: "e.g. Running `curl ... | html2md` produces empty output"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps to reproduce the issue.
+      placeholder: |
+        1. Run `echo '<h1>Hello</h1>' | html2md`
+        2. Expected: `## Hello`
+        3. Got: (empty)
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: html2md version
+      placeholder: "e.g. 0.1.0 (run: html2md --help)"
+    validations:
+      required: true
+
+  - type: input
+    id: deno
+    attributes:
+      label: Deno version
+      placeholder: "e.g. deno 2.5.1 (run: deno --version)"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "e.g. macOS 15, Ubuntu 24.04, Windows 11"
+    validations:
+      required: true

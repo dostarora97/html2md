@@ -9,6 +9,8 @@
     "fmt:check": "deno fmt --check",
     "lint": "deno lint",
     "test": "deno test --allow-read --allow-env",
+    "test:coverage": "deno test --allow-read --allow-env --coverage=coverage/raw",
+    "coverage": "deno task test:coverage && deno coverage coverage/raw --lcov --output=coverage/lcov.info",
     "check": "deno check mod.ts cli.ts",
     "doc:lint": "deno doc --lint mod.ts",
     "doc:gen": "deno doc --html --name='html2md' --output=docs/api mod.ts",

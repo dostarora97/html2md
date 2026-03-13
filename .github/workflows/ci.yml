@@ -16,14 +16,36 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Cache Deno modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.deno
+            ~/.cache/deno
+          key: deno-${{ runner.os }}-${{ hashFiles('deno.lock') }}
+          restore-keys: |
+            deno-${{ runner.os }}-
+
       - name: Format check
         run: deno task fmt:check
 
       - name: Lint
         run: deno task lint
 
+      - name: Doc lint
+        run: deno task doc:lint
+
       - name: Type check
         run: deno task check
 
-      - name: Test
-        run: deno task test
+      - name: Test with coverage
+        run: deno task test:coverage
+
+      - name: Generate lcov
+        run: deno coverage coverage/raw --lcov --output=coverage/lcov.info
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage/lcov.info
+          fail_ci_if_error: false

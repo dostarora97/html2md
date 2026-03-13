@@ -48,7 +48,17 @@ else
   fatal "Git is required but not found. Install from https://git-scm.com"
 fi
 
-# ── 3. Entire (optional — for AI session checkpoints) ─────────────────────────
+# ── 3. mise (tool version manager) ────────────────────────────────────────────
+step "Checking mise..."
+if command -v mise &>/dev/null; then
+  ok "Found mise $(mise --version | head -1)"
+  mise install
+  ok "Deno version pinned via .mise.toml"
+else
+  warn "mise not found. Install from https://mise.jdx.dev (optional — for pinned Deno version)"
+fi
+
+# ── 4. Entire (optional — for AI session checkpoints) ─────────────────────────
 step "Checking Entire..."
 if command -v entire &>/dev/null; then
   ok "Found entire $(entire version 2>/dev/null | head -1 || echo '')"
@@ -61,36 +71,42 @@ else
   fi
 fi
 
-# ── 4. Git hooks ──────────────────────────────────────────────────────────────
-step "Installing git hooks..."
-HOOKS_SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/hooks" && pwd)"
-GIT_HOOKS_DIR="$(git rev-parse --git-dir)/hooks"
-
-for hook in pre-commit commit-msg; do
-  SRC="$HOOKS_SRC/$hook"
-  DST="$GIT_HOOKS_DIR/$hook"
-  if [ -f "$SRC" ]; then
-    if [ -f "$DST" ] && ! grep -q "html2md" "$DST" 2>/dev/null; then
-      warn "$hook hook already exists and wasn't written by us — skipping to avoid overwriting."
-    else
-      cp "$SRC" "$DST"
-      chmod +x "$DST"
-      ok "Installed $hook hook"
+# ── 5. Git hooks via lefthook ─────────────────────────────────────────────────
+step "Installing git hooks via lefthook..."
+if command -v lefthook &>/dev/null; then
+  lefthook install
+  ok "Git hooks installed (pre-commit, commit-msg)"
+else
+  warn "lefthook not found. Install from https://github.com/evilmartians/lefthook"
+  warn "Falling back to manual hook copying..."
+  HOOKS_SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/hooks" && pwd)"
+  GIT_HOOKS_DIR="$(git rev-parse --git-dir)/hooks"
+  for hook in pre-commit commit-msg; do
+    SRC="$HOOKS_SRC/$hook"
+    DST="$GIT_HOOKS_DIR/$hook"
+    if [ -f "$SRC" ]; then
+      if [ -f "$DST" ] && ! grep -q "html2md" "$DST" 2>/dev/null; then
+        warn "$hook hook already exists and wasn't written by us — skipping to avoid overwriting."
+      else
+        cp "$SRC" "$DST"
+        chmod +x "$DST"
+        ok "Installed $hook hook"
+      fi
     fi
-  fi
-done
+  done
+fi
 
-# ── 5. Install global html2md command ─────────────────────────────────────────
+# ── 6. Install global html2md command ─────────────────────────────────────────
 step "Installing global 'html2md' command..."
 deno task install
 ok "html2md installed globally"
 
-# ── 6. Cache dependencies ─────────────────────────────────────────────────────
+# ── 7. Cache dependencies ─────────────────────────────────────────────────────
 step "Caching Deno dependencies..."
 deno cache mod.ts cli.ts mod_test.ts
 ok "Dependencies cached"
 
-# ── 7. Done ───────────────────────────────────────────────────────────────────
+# ── 8. Done ───────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${GRN}  All done! Your environment is ready.${NC}"
 echo ""

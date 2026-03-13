@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest a new flag, option, or behaviour
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion! Please describe what you'd like to see.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to do that doesn't work well today?
+      placeholder: "e.g. I want to strip all tables from output for LLM prompts"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How should the feature work? Include flag names, API changes, etc.
+      placeholder: "e.g. Add `--strip-tables` flag that removes <table> elements"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds or alternative approaches you've tried?
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Any other relevant information, examples, or links.

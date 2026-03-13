@@ -6,6 +6,10 @@ Everything you need to go from zero to a merged pull request.
 
 - **Deno v2+** — https://deno.land
 - **Git**
+- **lefthook** (git hooks manager) — `brew install lefthook` or
+  https://github.com/evilmartians/lefthook
+- **mise** (tool version manager, optional) — `brew install mise` or
+  https://mise.jdx.dev
 - **Entire** (optional, for AI session checkpoints) — https://entire.io
 
 ## First-time setup
@@ -25,9 +29,11 @@ That's it. The script is idempotent — safe to re-run.
 
 1. Checks for Deno; installs it if missing
 2. Checks for Git (fatal if absent)
-3. Installs Entire if missing (non-fatal)
-4. Copies `scripts/hooks/pre-commit` → `.git/hooks/pre-commit`
-5. Copies `scripts/hooks/commit-msg` → `.git/hooks/commit-msg`
+3. Runs `mise install` to activate the pinned Deno version (if mise is
+   installed)
+4. Installs Entire if missing (non-fatal)
+5. Runs `lefthook install` to wire up git hooks; falls back to manual copy if
+   lefthook is absent
 6. Runs `deno task install` to install the global `html2md` command
 7. Runs `deno cache` to warm up the module cache
 
@@ -45,6 +51,7 @@ deno task ci          # full pipeline (fmt + lint + doc:lint + typecheck + test)
 deno task fmt         # auto-format
 deno task lint        # lint only
 deno task check       # typecheck only
+deno task coverage    # run tests with coverage → coverage/lcov.info
 ```
 
 Tests run in under a second — `deno task test` is your inner loop.

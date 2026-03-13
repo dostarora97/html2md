@@ -23,6 +23,7 @@ Read these files to understand the project — they are the source of truth:
 deno task ci            # full pipeline: fmt + lint + doc:lint + typecheck + test
 deno task test          # tests only (fast inner loop)
 deno task fmt           # auto-format all files
+deno task coverage      # run tests → coverage/lcov.info
 deno task setup         # re-run bootstrap (idempotent)
 deno task doc:gen       # generate HTML API docs into docs/api/
 deno task upgrade       # check for outdated npm dependencies
@@ -37,10 +38,14 @@ mod.ts          Public library API — exports convert(html, opts): ConvertResul
 cli.ts          CLI entry — reads stdin, parses flags, calls mod.ts
 mod_test.ts     14 unit tests (deno test)
 deno.json       Config, import map, tasks, JSR publish metadata
+lefthook.yml    Git hook definitions (pre-commit, commit-msg) — managed by lefthook
+.mise.toml      Pinned tool versions (Deno 2.5.1)
+package.json    npm script shims delegating to deno task (for Node user discoverability)
+.gitattributes  LF line endings, linguist overrides
 scripts/
-  bootstrap.sh          First-time environment setup
-  hooks/pre-commit      Runs deno task ci before every commit
-  hooks/commit-msg      Enforces conventional commits format
+  bootstrap.sh          First-time environment setup (Deno, mise, lefthook, Entire)
+  hooks/pre-commit      Fallback hook (used when lefthook is unavailable)
+  hooks/commit-msg      Fallback hook (used when lefthook is unavailable)
 .claude/
   settings.json         Permissions + lint-on-save hook + Entire hooks
   rules/typescript.md   Deno/TS conventions (scoped to .ts files)
@@ -48,15 +53,22 @@ scripts/
   skills/release/       /release skill — bump version, tag, push
   agents/reviewer.md    read-only Sonnet reviewer subagent
 .github/
-  workflows/ci.yml          Lint + typecheck + test on push/PR
+  workflows/ci.yml          Lint + typecheck + test + coverage on push/PR
   workflows/publish.yml     JSR publish on git tag push
   workflows/release-drafter.yml  Auto-draft release notes
   dependabot.yml            Monthly npm dep bump PRs
   release-drafter.yml       Release notes categories config
+  ISSUE_TEMPLATE/           Bug report and feature request forms
+  pull_request_template.md  PR checklist
+  CODEOWNERS                Code owners config
 docs/                   Human + agent documentation (see Orientation above)
 .vscode/                Format-on-save, Deno extension config
 .editorconfig           Universal indentation and whitespace config
 .entire/                AI session checkpoints (entire enable --agent claude-code)
+LICENSE                 MIT
+SECURITY.md             Vulnerability reporting policy
+CONTRIBUTING.md         Quick-start redirect to docs/contributing.md
+CODE_OF_CONDUCT.md      Contributor Covenant 2.1
 ```
 
 ## Code conventions (summary — full details in @docs/contributing.md)

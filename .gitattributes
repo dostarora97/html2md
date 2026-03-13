@@ -1,0 +1,30 @@
+# Enforce LF line endings on checkout for all text files
+* text=auto eol=lf
+
+# Explicitly mark source files as text
+*.ts text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.toml text eol=lf
+
+# Shell scripts: mark as executable text
+scripts/bootstrap.sh text eol=lf
+scripts/hooks/* text eol=lf
+
+# Mark generated API docs as generated (GitHub hides diffs for these)
+docs/api/** linguist-generated=true
+
+# Mark lockfile as not diffable
+deno.lock -diff
+
+# Binary files — no text conversion
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
