@@ -1,8 +1,15 @@
 # Deno cache
 .deno/
 
-# npm artifacts (if ever used)
+# npm artifacts
 node_modules/
+
+# Claude Code — local settings (personal overrides, not for sharing)
+.claude/settings.local.json
+
+# Entire — session metadata (large binary blobs)
+.entire/metadata/
 
 # OS
 .DS_Store
+Thumbs.db
