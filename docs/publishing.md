@@ -1,22 +1,27 @@
 # Publishing
 
-## First-time setup
+## How it works
 
-1. Create an account at [jsr.io](https://jsr.io) and link your GitHub
-2. `deno login` (opens browser)
+Pushing a `v*` tag triggers `.github/workflows/publish.yml`, which runs the full
+CI pipeline then publishes to JSR via OIDC — no tokens or secrets needed. The
+JSR package settings link this repo, so GitHub Actions is trusted automatically.
 
 ## Cutting a release
 
 ```bash
-/release 0.2.0   # Claude Code skill: CI → bump version → update CHANGELOG → commit → tag → push
+# 1. Bump version in deno.json and update CHANGELOG.md, then:
+git add deno.json CHANGELOG.md
+git commit -m "chore: release v0.2.0"
+git tag v0.2.0
+git push && git push origin v0.2.0
 ```
 
-Or manually: bump `"version"` in `deno.json`, update `CHANGELOG.md`, commit as
-`chore: release v0.2.0`, tag `v0.2.0`, push. The `.github/workflows/publish.yml`
-workflow picks up the tag and runs `deno publish` via OIDC — no API key needed.
+GitHub Actions takes it from there: CI → `deno publish` with provenance.
+
+To preview what gets uploaded before tagging:
 
 ```bash
-deno task publish-dry   # preview what gets uploaded before committing
+deno task publish-dry
 ```
 
 ## Versioning
