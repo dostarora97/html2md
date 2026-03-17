@@ -26,7 +26,7 @@
       "command": "deno test --watch",
       "description": "Watch mode — re-run tests on file change"
     },
-    "install": "deno install --global --allow-read --allow-env --name html2md ./cli.ts",
+    "install": "deno install --global --allow-read --allow-env --config ./deno.json --no-lock --name html2md -f ./cli.ts",
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
     "lint": "deno lint",
