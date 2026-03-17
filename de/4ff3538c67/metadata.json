@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "de4ff3538c67",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 7,
+  "files_touched": [
+    "deno.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/de/4ff3538c67/0/metadata.json",
+      "transcript": "/de/4ff3538c67/0/full.jsonl",
+      "content_hash": "/de/4ff3538c67/0/content_hash.txt",
+      "prompt": "/de/4ff3538c67/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 62,
+    "cache_creation_tokens": 63972,
+    "cache_read_tokens": 1751430,
+    "output_tokens": 5463,
+    "api_call_count": 36
+  }
+}

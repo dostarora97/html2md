@@ -1,0 +1,63 @@
+how do i get this codebases logic or binary available everywhwere in my terminal where i use curl. before making any changes let me know
+
+---
+
+i just ran and got this error:
+! deno task install
+  ⎿  Task install deno install --global --allow-read --allow-env --name html2md ./cli.ts
+     Warning discovered config file will be ignored in the installed command. Use the --config flag if you wish to include it.
+     error: Existing installation found. Aborting (Use -f to overwrite).
+
+---
+
+why are you remocing the flag -f ?
+
+---
+
+i want both. i do want to install it properly and i also want the deno.json to be proper - now you should think and tell me which is better to keep the flag -f in deno.json or not, because eventually this is a public product and will be used by everyone and not just me
+
+---
+
+is there no better command to run ? what is the most ergonomic ubiqoutous deno command to run ?
+
+---
+
+alright go ahead and add -f
+
+---
+
+and any other change required ? do you want to update the version or anything else or commit this and push ? or shall we first test it ? let em test by running the install command
+
+---
+
+i just ran:
+! deno task install
+  ⎿  Task install deno install --global --allow-read --allow-env --name html2md -f ./cli.ts
+     Warning discovered config file will be ignored in the installed command. Use the --config flag if you wish to include it.
+     ✅ Successfully installed html2md
+     /Users/I533118/.deno/bin/html2md
+then ran:
+❯ curl https://digital-loop.com/en/blog/how-to-uninstall-clawbot-openclaw | html2md
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+error: Relative import path "@std/cli/parse-args" not prefixed with / or ./ or ../
+  hint: If you want to use the JSR package, try running `deno add jsr:@std/cli/parse-args`
+    at file:///Users/I533118/personal/code/html2md/cli.ts:3:27
+100 16384    0 16384    0     0  19737      0 --:--:-- --:--:-- --:--:-- 19739
+curl: (56) Failure writing output to destination, passed 8192 returned 0
+
+---
+
+what exactly is happening here ? explain to me in detail
+
+---
+
+go ahead you can do tha yourself and test it
+
+---
+
+what all changes did we make in the proj ?
+
+---
+
+is this all correct code ? and would this need version bump?
