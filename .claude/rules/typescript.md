@@ -3,6 +3,9 @@ paths:
   - "mod.ts"
   - "mod_test.ts"
   - "cli.ts"
+  - "src/extract.ts"
+  - "src/markdown.ts"
+  - "src/frontmatter.ts"
 ---
 
 # TypeScript / Deno conventions

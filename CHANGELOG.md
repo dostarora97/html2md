@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Refactored internals into `src/` modules (`extract`, `markdown`,
+  `frontmatter`)
+
 ## [0.1.1] - 2026-03-13
 
 ### Added

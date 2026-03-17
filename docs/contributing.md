@@ -32,7 +32,8 @@ The `pre-commit` hook runs `deno task ci` automatically.
 Touch these five things in order:
 
 1. **`mod.ts`** — add the option to `ConvertOptions` with JSDoc + `@default`,
-   destructure it in `convert()`, implement the behaviour
+   destructure it in `convert()`, and implement the behaviour in the appropriate
+   `src/` module (`src/extract.ts`, `src/markdown.ts`, or `src/frontmatter.ts`)
 2. **`cli.ts`** — add to the `parseArgs` config (`boolean`/`string`/`negatable`
    as appropriate), pass to `convert()`
 3. **`mod_test.ts`** — at minimum: flag=true, flag=false (default)
