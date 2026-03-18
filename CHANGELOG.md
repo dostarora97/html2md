@@ -12,6 +12,8 @@ and this project adheres to
 
 - CLI integration tests (`cli_test.ts`) covering all flags, empty-stdin exit
   code, and `--help`
+- Real-world HTML fixture tests (`fixture_test.ts`) using a saved snapshot of
+  the Deno 2.0 blog post to catch regressions from dependency updates
 
 ### Fixed
 
