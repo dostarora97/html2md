@@ -140,3 +140,26 @@ Deno.test("convert: returns title and description in result", () => {
   assertEquals(result.title, "OG Title Override");
   assertEquals(result.description, "A short description.");
 });
+
+Deno.test("frontmatter: newlines in title are collapsed to spaces", () => {
+  const html =
+    `<html><head><title>Line one\nLine two</title></head><body><p>body</p></body></html>`;
+  const { markdown } = convert(html);
+  assertStringIncludes(markdown, 'title: "Line one Line two"');
+});
+
+Deno.test("frontmatter: double-quotes in description are escaped", () => {
+  const html =
+    `<html><head><meta name="description" content='Say "hello"'></head><body><p>body</p></body></html>`;
+  const { markdown } = convert(html);
+  assertStringIncludes(markdown, 'description: "Say \\"hello\\""');
+});
+
+Deno.test("reader mode: falls back to raw HTML when Readability returns null", () => {
+  // A page with no extractable article — Readability returns null
+  const html =
+    `<html><head><title>Empty</title></head><body><p>hi</p></body></html>`;
+  // Should not throw; markdown should contain some content
+  const { markdown } = convert(html, { frontmatter: false });
+  assertStringIncludes(markdown, "hi");
+});

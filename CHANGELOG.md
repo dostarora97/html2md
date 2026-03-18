@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- YAML frontmatter: newlines in `title`/`description` are now collapsed to
+  spaces; double-quotes are correctly escaped
+- Added test coverage for Readability null-result fallback path
+
 ## [0.1.2] - 2026-03-18
 
 ### Fixed
