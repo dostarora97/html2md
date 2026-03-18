@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "7dcc534089bb",
+  "session_id": "a0078ba2-515c-4fde-b09d-3b7627300cd0",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-18T11:11:46.124181Z",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "deno.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-latest",
+  "turn_id": "42fe94adac13",
+  "checkpoint_transcript_start": 156,
+  "transcript_lines_at_start": 156,
+  "token_usage": {
+    "input_tokens": 2394,
+    "cache_creation_tokens": 16370,
+    "cache_read_tokens": 430990,
+    "output_tokens": 2147,
+    "api_call_count": 6
+  },
+  "session_metrics": {
+    "turn_count": 12
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-18T11:11:46.035662Z",
+    "agent_lines": 0,
+    "human_added": 47,
+    "human_modified": 1,
+    "human_removed": 0,
+    "total_committed": 47,
+    "agent_percentage": 0
+  }
+}
