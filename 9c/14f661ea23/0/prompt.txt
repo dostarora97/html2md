@@ -1,0 +1,22 @@
+let's go with housekeeping for this particular fix and publish a new semver marked (if needed).
+and keep others in the todo and then we will address them later.
+
+---
+
+don't use sap-github-mcp, because that is particularly only for projects under $TPP and nothing else. for all the other project we gotta use the `gh`. you should not even have the reference for `sap-github-mcp` and you should just use `gh` directly.
+
+---
+
+you can continue with any of your open 4 tasks that you were doin and mark them complete once done or obselete
+
+---
+
+alrght now is everything already published ?
+
+---
+
+and new tage and new build is available ? or do we stil have to do anything and bump ?
+
+---
+
+well we do want to actually release this for our users becaause we have fixed everything. we don't want to wait on anything. we want to wrap up everything and make it availabel everyone through the world publicly.
