@@ -18,7 +18,8 @@
       ".gitignore",
       ".editorconfig",
       "CLAUDE.md",
-      "mod_test.ts"
+      "mod_test.ts",
+      "cli_test.ts"
     ]
   },
   "tasks": {
@@ -31,11 +32,11 @@
     "fmt:check": "deno fmt --check",
     "lint": "deno lint",
     "test": {
-      "command": "deno test --parallel",
+      "command": "deno test --parallel --allow-run",
       "description": "Run unit tests"
     },
     "test:coverage": {
-      "command": "deno test --parallel --coverage=coverage/raw",
+      "command": "deno test --parallel --allow-run --coverage=coverage/raw",
       "description": "Run tests with coverage collection"
     },
     "test:doc": {

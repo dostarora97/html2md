@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- CLI integration tests (`cli_test.ts`) covering all flags, empty-stdin exit
+  code, and `--help`
+
 ### Fixed
 
 - YAML frontmatter: newlines in `title`/`description` are now collapsed to
