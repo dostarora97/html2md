@@ -117,6 +117,24 @@ Deno.test("full mode: keeps body content without reader extraction", () => {
   assertStringIncludes(markdown, "Main Heading");
 });
 
+const FRAGMENT_HTML = `
+<h1>Fragment Heading</h1>
+<p>Some <strong>content</strong> here.</p>
+`;
+
+Deno.test("reader mode: handles HTML fragment without crashing", () => {
+  const { markdown } = convert(FRAGMENT_HTML, { frontmatter: false });
+  assertStringIncludes(markdown, "Fragment Heading");
+});
+
+Deno.test("full mode: handles HTML fragment without crashing", () => {
+  const { markdown } = convert(FRAGMENT_HTML, {
+    frontmatter: false,
+    reader: false,
+  });
+  assertStringIncludes(markdown, "Fragment Heading");
+});
+
 Deno.test("convert: returns title and description in result", () => {
   const result = convert(ARTICLE_HTML);
   assertEquals(result.title, "OG Title Override");

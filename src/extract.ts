@@ -58,5 +58,8 @@ export function extractContent(
 }
 
 export function parseDocument(html: string): Document {
-  return parseHTML(html).document;
+  const normalised = /^\s*<(!DOCTYPE|html)/i.test(html)
+    ? html
+    : `<html><body>${html}</body></html>`;
+  return parseHTML(normalised).document;
 }
