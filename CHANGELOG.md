@@ -8,6 +8,14 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-03-18
+
+### Fixed
+
+- HTML fragments (no `<html>`/`<body>` wrapper, e.g. Confluence REST API
+  responses) no longer crash Readability with a null-dereference error on
+  `tagName`
+
 ### Changed
 
 - Refactored internals into `src/` modules (`extract`, `markdown`,
