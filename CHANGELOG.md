@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-03-18
+
 ### Added
 
 - CLI integration tests (`cli_test.ts`) covering all flags, empty-stdin exit
